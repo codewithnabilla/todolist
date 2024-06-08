@@ -1,20 +1,51 @@
-const { DataTypes } = require("sequelize");
+const { supabase } = require("../supabaseClient");
 
-module.exports = (sequelize) => {
-  const Todo = sequelize.define("Todo", {
-    title: {
-      type: DataTypes.STRING,
-      allowNull: false,
-    },
-    detail: {
-      type: DataTypes.TEXT,
-      allowNull: false,
-    },
-    completed: {
-      type: DataTypes.BOOLEAN,
-      defaultValue: false,
-    },
-  });
+const getTodos = async () => {
+  const { data, error } = await supabase.from("todos").select("*");
 
-  return Todo;
+  if (error) {
+    throw new Error(error.message);
+  }
+
+  return data;
+};
+
+const addTodo = async (todo) => {
+  const { data, error } = await supabase.from("todos").insert([todo]);
+
+  if (error) {
+    throw new Error(error.message);
+  }
+
+  return data;
+};
+
+const updateTodo = async (id, updatedFields) => {
+  const { data, error } = await supabase
+    .from("todos")
+    .update(updatedFields)
+    .eq("id", id);
+
+  if (error) {
+    throw new Error(error.message);
+  }
+
+  return data;
+};
+
+const deleteTodo = async (id) => {
+  const { data, error } = await supabase.from("todos").delete().eq("id", id);
+
+  if (error) {
+    throw new Error(error.message);
+  }
+
+  return data;
+};
+
+module.exports = {
+  getTodos,
+  addTodo,
+  updateTodo,
+  deleteTodo,
 };

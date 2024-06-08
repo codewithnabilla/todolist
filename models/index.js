@@ -1,18 +1,51 @@
-const { Sequelize } = require("sequelize");
+const { supabase } = require("../supabaseClient");
 
-const sequelize = new Sequelize(
-  process.env.DB_NAME,
-  process.env.DB_USER,
-  process.env.DB_PASSWORD,
-  {
-    host: process.env.DB_HOST,
-    dialect: process.env.DB_DIALECT,
+const getTodos = async () => {
+  const { data, error } = await supabase.from("todos").select("*");
+
+  if (error) {
+    throw new Error(error.message);
   }
-);
 
-const Todo = require("./todo")(sequelize);
+  return data;
+};
+
+const addTodo = async (todo) => {
+  const { data, error } = await supabase.from("todos").insert([todo]);
+
+  if (error) {
+    throw new Error(error.message);
+  }
+
+  return data;
+};
+
+const updateTodo = async (id, updatedFields) => {
+  const { data, error } = await supabase
+    .from("todos")
+    .update(updatedFields)
+    .eq("id", id);
+
+  if (error) {
+    throw new Error(error.message);
+  }
+
+  return data;
+};
+
+const deleteTodo = async (id) => {
+  const { data, error } = await supabase.from("todos").delete().eq("id", id);
+
+  if (error) {
+    throw new Error(error.message);
+  }
+
+  return data;
+};
 
 module.exports = {
-  sequelize,
-  Todo,
+  getTodos,
+  addTodo,
+  updateTodo,
+  deleteTodo,
 };

@@ -1,36 +1,36 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# How to Use
 
-## Getting Started
+---
 
-First, run the development server:
+# Adding a Task
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+1. Enter the title and details of the task in the input fields provided.
+2. Click on the "Add" button to add the task to the list.
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+# Editing a Task
 
-You can start editing the page by modifying `app/page.js`. The page auto-updates as you edit the file.
+1. Find the task you want to edit in the list.
+2. Click on the "Edit" button next to the task.
+3. Modify the title and/or details of the task in the input fields.
+4. Click "Save" to save your changes.
 
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
+# Marking a Task as Completed
 
-## Learn More
+1. Locate the task you want to mark as completed in the list.
+2. Click on the checkbox next to the task to mark it as completed.
+3. The task will be visually indicated as completed.
 
-To learn more about Next.js, take a look at the following resources:
+# Deleting a Task
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+1. Find the task you want to delete in the list.
+2. Click on the "Delete" button next to the task.
+3. Confirm the deletion if prompted.
+4. The task will be removed from the list.
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
+# How to run locally
 
-## Deploy on Vercel
+write npm run dev in terminal
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+# note
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+after add, delete, edit, or marking task, you must reload the page to get page updated.

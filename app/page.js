@@ -190,91 +190,93 @@ export default function Home() {
           </tr>
         </thead>
         <tbody className="bg-white dark:bg-gray-800">
-          {todos.map((todo, index) => (
-            <tr
-              key={todo.id}
-              className="odd:bg-white odd:dark:bg-gray-900 even:bg-gray-50 even:dark:bg-gray-800 border-b dark:border-gray-700"
-            >
-              <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900 dark:text-white">
-                {index + 1}
-              </td>
-              <td
-                className={`px-6 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-gray-400 ${
-                  todo.completed
-                    ? "line-through text-gray-500 dark:text-gray-400"
-                    : "text-gray-900 dark:text-white"
-                }`}
+          {todos.map((todo, index) =>
+            todo ? (
+              <tr
+                key={todo.id}
+                className="odd:bg-white odd:dark:bg-gray-900 even:bg-gray-50 even:dark:bg-gray-800 border-b dark:border-gray-700"
               >
-                {editingId === todo.id ? (
+                <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900 dark:text-white">
+                  {index + 1}
+                </td>
+                <td
+                  className={`px-6 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-gray-400 ${
+                    todo.completed
+                      ? "line-through text-gray-500 dark:text-gray-400"
+                      : "text-gray-900 dark:text-white"
+                  }`}
+                >
+                  {editingId === todo.id ? (
+                    <input
+                      type="text"
+                      value={editingTitle}
+                      onChange={(e) => setEditingTitle(e.target.value)}
+                      className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                    />
+                  ) : (
+                    todo.title
+                  )}
+                </td>
+                <td
+                  className={`px-6 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-gray-400${
+                    todo.completed
+                      ? "line-through text-gray-500 dark:text-gray-400"
+                      : "text-gray-900 dark:text-white"
+                  }`}
+                >
+                  {editingId === todo.id ? (
+                    <textarea
+                      value={editingDetail}
+                      onChange={(e) => setEditingDetail(e.target.value)}
+                      className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 resize-none overflow-y-auto h-32 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                    />
+                  ) : (
+                    todo.detail
+                  )}
+                </td>
+                <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-gray-400">
                   <input
-                    type="text"
-                    value={editingTitle}
-                    onChange={(e) => setEditingTitle(e.target.value)}
-                    className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                    type="checkbox"
+                    checked={todo.completed}
+                    onChange={() => updateTodo(todo.id, todo.completed)}
                   />
-                ) : (
-                  todo.title
-                )}
-              </td>
-              <td
-                className={`px-6 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-gray-400${
-                  todo.completed
-                    ? "line-through text-gray-500 dark:text-gray-400"
-                    : "text-gray-900 dark:text-white"
-                }`}
-              >
-                {editingId === todo.id ? (
-                  <textarea
-                    value={editingDetail}
-                    onChange={(e) => setEditingDetail(e.target.value)}
-                    className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 resize-none overflow-y-auto h-32 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                  />
-                ) : (
-                  todo.detail
-                )}
-              </td>
-              <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-gray-400">
-                <input
-                  type="checkbox"
-                  checked={todo.completed}
-                  onChange={() => updateTodo(todo.id, todo.completed)}
-                />
-              </td>
-              <td className="px-6 py-4 whitespace-nowrap text-sm font-medium">
-                {editingId === todo.id ? (
-                  <>
-                    <button
-                      onClick={() => saveEditing(todo.id)}
-                      className="text-green-600 hover:text-green-900 dark:text-green-400 dark:hover:text-green-600 mr-2"
-                    >
-                      Save
-                    </button>
-                    <button
-                      onClick={cancelEditing}
-                      className="text-yellow-600 hover:text-yellow-900 dark:text-yellow-400 dark:hover:text-yellow-600"
-                    >
-                      Cancel
-                    </button>
-                  </>
-                ) : (
-                  <>
-                    <button
-                      onClick={() => startEditing(todo)}
-                      className="text-blue-600 hover:text-blue-900 dark:text-blue-400 dark:hover:text-blue-600 mr-2"
-                    >
-                      Edit
-                    </button>
-                    <button
-                      onClick={() => deleteTodo(todo.id)}
-                      className="text-red-600 hover:text-red-900 dark:text-red-400 dark:hover:text-red-600"
-                    >
-                      Delete
-                    </button>
-                  </>
-                )}
-              </td>
-            </tr>
-          ))}
+                </td>
+                <td className="px-6 py-4 whitespace-nowrap text-sm font-medium">
+                  {editingId === todo.id ? (
+                    <>
+                      <button
+                        onClick={() => saveEditing(todo.id)}
+                        className="text-green-600 hover:text-green-900 dark:text-green-400 dark:hover:text-green-600 mr-2"
+                      >
+                        Save
+                      </button>
+                      <button
+                        onClick={cancelEditing}
+                        className="text-yellow-600 hover:text-yellow-900 dark:text-yellow-400 dark:hover:text-yellow-600"
+                      >
+                        Cancel
+                      </button>
+                    </>
+                  ) : (
+                    <>
+                      <button
+                        onClick={() => startEditing(todo)}
+                        className="text-blue-600 hover:text-blue-900 dark:text-blue-400 dark:hover:text-blue-600 mr-2"
+                      >
+                        Edit
+                      </button>
+                      <button
+                        onClick={() => deleteTodo(todo.id)}
+                        className="text-red-600 hover:text-red-900 dark:text-red-400 dark:hover:text-red-600"
+                      >
+                        Delete
+                      </button>
+                    </>
+                  )}
+                </td>
+              </tr>
+            ) : null
+          )}
         </tbody>
       </table>
     </div>

@@ -1,37 +1,66 @@
-import { Todo } from "../../../models";
+import { createClient } from "@supabase/supabase-js";
+
+const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
+const supabaseKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
+const supabase = createClient(supabaseUrl, supabaseKey);
 
 export default async function handler(req, res) {
-  const { method } = req;
-  const { id } = req.query;
+  const {
+    query: { id },
+    method,
+  } = req;
 
   switch (method) {
+    case "GET":
+      try {
+        const { data, error } = await supabase
+          .from("todos")
+          .select("*")
+          .eq("id", id)
+          .single();
+        if (error) throw error;
+        res.status(200).json(data);
+      } catch (error) {
+        console.error("Error fetching todo:", error);
+        res
+          .status(500)
+          .json({ message: "Internal Server Error", error: error.message });
+      }
+      break;
     case "PUT":
       try {
-        const todo = await Todo.findByPk(id);
-        if (!todo) {
-          return res.status(404).json({ error: "Todo not found" });
-        }
         const { title, detail, completed } = req.body;
-        await todo.update({ title, detail, completed });
-        res.status(200).json(todo);
+        const { data, error } = await supabase
+          .from("todos")
+          .update({ title, detail, completed })
+          .eq("id", id);
+        if (error) throw error;
+        res.status(200).json(data);
       } catch (error) {
-        res.status(500).json({ error: "Failed to update todo" });
+        console.error("Error updating todo:", error);
+        res
+          .status(500)
+          .json({ message: "Internal Server Error", error: error.message });
       }
       break;
     case "DELETE":
       try {
-        const todo = await Todo.findByPk(id);
-        if (!todo) {
-          return res.status(404).json({ error: "Todo not found" });
-        }
-        await todo.destroy();
+        const { data, error } = await supabase
+          .from("todos")
+          .delete()
+          .eq("id", id);
+        if (error) throw error;
         res.status(204).end();
       } catch (error) {
-        res.status(500).json({ error: "Failed to delete todo" });
+        console.error("Error deleting todo:", error);
+        res
+          .status(500)
+          .json({ message: "Internal Server Error", error: error.message });
       }
       break;
     default:
-      res.setHeader("Allow", ["PUT", "DELETE"]);
-      res.status(405).end(`Method ${method} not allowed`);
+      res.setHeader("Allow", ["GET", "PUT", "DELETE"]);
+      res.status(405).end(`Method ${method} Not Allowed`);
+      break;
   }
 }
