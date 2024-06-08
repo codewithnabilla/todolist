@@ -31,6 +31,10 @@
 
 write npm run dev in terminal
 
+# How to run with link
+
+visit https://todolist-m4fckb132-codewithnabillas-projects.vercel.app/
+
 # note
 
 after add, delete, edit, or marking task, you must reload the page to get page updated.
