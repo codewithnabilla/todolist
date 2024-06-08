@@ -11,8 +11,8 @@ export default async function handler(req, res) {
         if (!todo) {
           return res.status(404).json({ error: "Todo not found" });
         }
-        const { completed } = req.body;
-        await todo.update({ completed });
+        const { title, detail, completed } = req.body;
+        await todo.update({ title, detail, completed });
         res.status(200).json(todo);
       } catch (error) {
         res.status(500).json({ error: "Failed to update todo" });
